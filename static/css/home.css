@@ -1,0 +1,175 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url("/static/img/home_bg.png");
+    background-size: 100% 100%;
+    background-position: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Nova Square', sans-serif;
+}
+
+#container {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    width: 60%;
+    transform: translate(-50%, 0%);
+}
+
+.title {
+    color: #fff;
+    font-size: 8em;
+}
+
+#serverListContainer {
+    width: 100%; /* Adjust the width of the server list container */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds container height */
+
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add a subtle box shadow */
+}
+
+#serverList {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+#serverList li {
+    margin: -2px;
+    padding: 15px;
+    border: 2px solid #555;
+}
+
+.dispo {
+    color: #15dc24;
+}
+
+.full {
+    color: #dc1515;
+}
+
+.join {
+    position: absolute;
+    left: 90%;
+    width: 8%;
+    background-color: #444;
+    color: whitesmoke;
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.join:hover {
+    background-color: #433;
+}
+
+
+#register {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 30%;
+    height: 40%;
+
+    text-align: center;
+
+    background-color: #333;
+    color: #fff;
+
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add a subtle box shadow */
+}
+
+
+#previous_avatar,
+#next_avatar {
+    background: none;
+    border: none;
+    font-size: 4em;
+    color: #555; /* Default font color */
+    cursor: pointer;
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+    vertical-align: middle;
+}
+
+#previous_avatar:hover,
+#next_avatar:hover {
+    color: #999; /* Lighter font color on hover */
+}
+
+#previous_avatar {
+    position: absolute;
+    left: 20%;
+    top: 30%;
+    transform: translateY(-50%);
+}
+
+#next_avatar {
+    position: absolute;
+    right: 20%;
+    top: 30%;
+    transform: translateY(-50%);
+}
+
+#avatar {
+    width: 15vh;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+#username {
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    font-size: 1em;
+    background-color: #616161;
+    border: 2px solid #555;
+    border-radius: 5px;
+    color: whitesmoke;
+}
+
+#join_button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 1em;
+    border: 2px solid #555;
+    border-radius: 5px;
+    background-color: #ccc;
+    color: #555;
+    cursor: not-allowed;
+    transition: background-color 0.3s ease;
+}
+
+#join_button:disabled {
+    background-color: #ccc;
+    color: #555;
+    cursor: not-allowed;
+}
+
+#join_button:enabled {
+    background-color: #555;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+#join_button:hover {
+    background-color: #bbb;
+}
+

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Poopker</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/game.css">
+	<script src="/static/js/draw.js"></script>
+	<script src="/static/js/updater.js"></script>
+</head>
+<body>
+	<div class="leave">
+		<button onclick="leave()">< leave</button>		
+	</div>
+
+	<div class="ennemy_profile" id="ennemy0">
+		<span class="ennemy_name">Anon1</span>
+		<img class="avatar" src="/static/img/avatars/avatar_1.png">
+		<span class="money">100€</span>
+		<div class="ennemy_hand right">
+			<img class="ennemy_left_card" src="/static/img/cards/card_bg.png">
+			<img class="ennemy_right_card" src="/static/img/cards/card_bg.png">
+		</div>
+		<div class="ennemy_bet">
+			<img src="/static/img/jeton.png">
+			<span class="amount">0</span>
+		</div>
+	</div>
+	
+	<div class="ennemy_profile" id="ennemy1">
+		<span class="ennemy_name">Anon2</span>
+		<img class="avatar" src="/static/img/avatars/avatar_1.png">
+		<span class="money">100€</span>
+		<div class="ennemy_hand right">
+			<img class="ennemy_left_card" src="/static/img/cards/card_bg.png">
+			<img class="ennemy_right_card" src="/static/img/cards/card_bg.png">
+		</div>
+		<div class="ennemy_bet">
+			<img src="/static/img/jeton.png">
+			<span class="amount">0</span>
+		</div>
+	</div>
+
+	<div class="ennemy_profile" id="ennemy2">
+		<span class="ennemy_name">Anon3</span>
+		<img class="avatar" src="/static/img/avatars/avatar_1.png">
+		<span class="money">100€</span>
+		<div class="ennemy_hand right">
+			<img class="ennemy_left_card" src="/static/img/cards/card_bg.png">
+			<img class="ennemy_right_card" src="/static/img/cards/card_bg.png">
+		</div>
+		<div class="ennemy_bet">
+			<img src="/static/img/jeton.png">
+			<span class="amount">0</span>
+		</div>
+	</div>
+
+	<div class="ennemy_profile" id="ennemy3">
+		<span class="ennemy_name">Anon4</span>
+		<img class="avatar" src="/static/img/avatars/avatar_1.png">
+		<span class="money">100€</span>
+		<div class="ennemy_hand left">
+			<img class="ennemy_left_card" src="/static/img/cards/card_bg.png">
+			<img class="ennemy_right_card" src="/static/img/cards/card_bg.png">
+		</div>
+		<div class="ennemy_bet">
+			<img src="/static/img/jeton.png">
+			<span class="amount">0</span>
+		</div>
+	</div>
+		
+	<div class="ennemy_profile" id="ennemy4">
+		<span class="ennemy_name">Anon5</span>
+		<img class="avatar" src="/static/img/avatars/avatar_1.png">
+		<span class="money">100€</span>
+		<div class="ennemy_hand left">
+			<img class="ennemy_left_card" src="/static/img/cards/card_bg.png">
+			<img class="ennemy_right_card" src="/static/img/cards/card_bg.png">
+		</div>
+		<div class="ennemy_bet">
+			<img src="/static/img/jeton.png">
+			<span class="amount">0</span>
+		</div>
+	</div>
+
+	<div id="board">
+        <img id="board0" src="">
+        <img id="board1" src="">
+        <img id="board2" src="">
+        <img id="board3" src="">
+        <img id="board4" src="">
+	</div>
+	<div id="pot">
+		<span>Total Pot: <span id="pot_value">0€</span></span>
+	</div>
+
+
+	<div id="user_choices">
+		<div class="user_bet">
+			<img src="/static/img/jeton.png">
+			<span class="amount">0</span>
+		</div>
+		<img id="user_avatar" src="/static/img/avatars/avatar_1.png">
+		<button class="choice" disabled id="check" onclick="make_action('check')">Check</button>
+		<button class="choice" disabled id="call" onclick="make_action('call')">Call</button>
+		<button class="choice" disabled id="raise" onclick="toggle_raise_input()">Raise</button>
+		<button class="choice" disabled id="flop" onclick="make_action('flop')">Fold</button>
+		<br>
+		<form id="raise_form" onsubmit="make_action_raise()">
+			<input type="text" autocomplete="off" id="raise_input" value="0">
+		</form>
+		<span id="user_money">100€</span>
+	</div>
+
+	<div id="hand">
+		<div class="hand_card" id="hand_left_card" onmouseover="change_main_hand_card('hand_left_card', 'hand_right_card')">
+			<img src="/static/img/cards/card_bg.png">
+		</div>
+		<div class="hand_card" id="hand_right_card" onmouseover="change_main_hand_card('hand_right_card', 'hand_left_card')">
+			<img src="/static/img/cards/card_bg.png">
+		</div>
+	</div>
+
+	<span id="open-source">Poopker is now <a href="https://github.com/GammaRay99/poopker">open source</a></span>
+
+	<script>
+		// prevent form refresh on submit
+		let form = document.getElementById('raise_form')
+		form.addEventListener("submit", function(event) {
+                event.preventDefault();
+		});
+
+		let username = ""
+		let game_id = 0
+
+
+		async function leave() {
+			let response = await fetch("/api/leave", { method: 'POST' })
+			// I have no idea what i am doing with this
+			location.reload()
+		}
+
+		function toggle_raise_input() {
+			let raise = document.getElementById("raise_input")
+			if (raise.style.display == "flex") {
+				raise.style.display = "none"
+			} else {
+				raise.style.display = "flex"	
+			}
+		}
+
+		async function make_action_raise() {
+			toggle_raise_input()
+			// same as make_action but with 'value' added
+			value = document.getElementById("raise_input").value
+			let response = await fetch("/api/game/" + game_id + "/action", {
+				method: 'POST',
+				headers: {
+			      'Content-Type': 'application/json'
+			    },
+				body: JSON.stringify({"action": 'raise', "value": value})
+			})
+			return false;
+		}
+
+		async function make_action(action) {
+			let response = await fetch("/api/game/" + game_id + "/action", {
+				method: 'POST',
+				headers: {
+			      'Content-Type': 'application/json'
+			    },
+				body: JSON.stringify({"action": action})
+			})
+		}
+
+		async function setup() {
+			let me = await get_user_data()
+			username = me["username"]
+			game_id = me["game_id"]
+			draw_user_profile(me['username'], me['avatar_url'])
+		}
+
+		async function update_game() {
+			let data = await get_game_data();
+			if (data == undefined) {
+				location.reload()
+			}
+			
+			let me = data['me'];
+
+			if (me['flag'] != undefined) {
+				console.log(me['flag'])
+				if (challenge_solved == false) {
+					alert(me['flag'])
+					challenge_solved = true
+				}
+			}
+
+			draw_hand(me['hand']);
+			update_profile(me['money'], me['bet'])
+			draw_board(data['board'], data["pot"]);
+			draw_ennemies(data['ennemies'], me['seat']);
+			
+			draw_playing(data['playing'], me);
+			}
+        
+        let challenge_solved = false;
+        setup()
+        // update_game()
+        setInterval(update_game, 1500);
+    </script>
+</body>
+</html>

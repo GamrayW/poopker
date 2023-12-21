@@ -1,0 +1,393 @@
+body {
+    margin: 0;
+    padding: 0;
+
+    background-image: url('/static/img/table_bg.png');
+    background-size: 100% 100%;
+    background-position: center;
+    height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    align-items: flex-end; /* Align to the bottom of the screen */
+    justify-content: center;
+    min-height: 100vh;
+
+    position: relative;
+    font-family: 'Nova Square', sans-serif;
+}
+
+
+.leave button{
+    position: absolute;
+    top: 95.5%;
+    left: 1%;
+    font-size: 1.3em;
+    color: gray;
+    background-color: #333; /* Darkish background color */
+    padding-left: 10px; /* Add padding for a cleaner look */
+    padding-right: 14px;
+    padding-bottom: 2px;
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
+    transition: box-shadow 0.3s ease;
+}
+
+.leave button:hover{
+    color: whitesmoke;
+    background-color: #f54257;
+    border: 2px solid #f54257;
+    box-shadow: 0 0 4px 5px rgba(245, 66, 87, 0.5);
+
+}
+
+/*----- ENNEMY PROFILE -----*/
+.ennemy_profile {
+    position: absolute;
+    top: 0%;
+    left: -20%;
+    text-align: center;
+
+    background-color: #333; /* Darkish background color */
+    padding: 15px; /* Add padding for a cleaner look */
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.folded {
+    filter: grayscale(90%);
+}
+
+.folded button {
+    cursor: not-allowed;
+}
+
+
+.ennemy_name {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #ffd700;
+}
+
+.avatar {
+    display: block;
+    margin: 0 auto;
+}
+
+.money {
+    display: block;
+    margin-top: 5px;
+    color: #fff;
+}
+
+.ennemy_bet {
+    position: absolute;
+    display: none;
+}
+
+.ennemy_bet .amount {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    background-color: #444;
+
+    padding: 10%;
+    padding-right: 20%;
+    padding-left: 20%;
+
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    z-index: 1; /* Place the span on top of the image */
+}
+
+.ennemy_bet img {
+    width: 50px;
+    height: auto;
+}
+
+.ennemy_hand {
+    position: absolute;
+    background-color: #444;
+
+    padding-top: 5%;
+    padding-bottom: 5%;
+
+    top: 30%;
+    width: 80%;
+  
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.ennemy_hand.right {
+    right: -75%;
+}
+
+.ennemy_hand.left {
+    right: 93%;
+}
+
+.ennemy_hand img {
+    z-index: 0;
+    width: 10vw; /* Adjust the width of the cards */
+    max-width: 60px; /* Set a maximum width if needed */
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 -15%; /* Overlapping margin, adjust as needed */
+    overflow: hidden;
+}
+
+/*----- ENNEMY 0 -----*/
+#ennemy0 {
+    display: none;
+    top: 63%;
+    left: 3%;
+}
+
+
+/*----- ENNEMY 1 -----*/
+#ennemy1 {
+    display: none;
+    top: 15%;
+    left: 3%;
+}
+
+
+/*----- ENNEMY 2 -----*/
+#ennemy2 {
+    display: none;
+    top: 1%;
+    left: 40%;
+}
+
+
+/*----- ENNEMY 3 -----*/
+#ennemy3 {
+    display: none;
+    top: 15%;
+    left: 87%;
+}
+
+
+/*----- ENNEMY 4 -----*/
+#ennemy4 {
+    display: none;
+    top: 63%;
+    left: 87%;
+}
+
+
+/*----- MAP -----*/
+#board {
+    position: absolute; /* Take the .board out of normal flow */
+    top: 34.5%; /* Center the .board vertically */
+    left: 27.9%; /* Center the .board horizontally */
+    /* transform: translate(-50%, -50%); /* Center the .board precisely */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 18%;
+    max-width: 80%;
+}
+
+#board img {
+    display: block;
+    width: 6.3vw; /* Set a maximum width if needed */
+    height: 100%;
+    margin-right: 3.25vw; /* 10.5%; /* Adjust the spacing between cards */
+}
+
+
+#pot {
+    position: absolute;
+    top: 28.5%;
+    left: 27.2%;
+    background-color: #444;
+    padding: 8px;
+    color: goldenrod;
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+/*----- USER -----*/
+#hand {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 5%; /* Adjust the distance from the bottom */
+}
+
+.hand_card {
+    width: 15vw; /* Adjust the width of the cards */
+    max-width: 150px; /* Set a maximum width if needed */
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 -10%; /* Overlapping margin, adjust as needed */
+    overflow: hidden;
+}
+
+.hand_card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#hand_left_card {
+    transform: rotate(-5deg);
+}
+
+#hand_right_card {
+    transform: rotate(5deg);
+}
+
+
+.hand_card:hover {
+    transform: scaleY(1.5);
+    transform-origin: bottom;
+}
+
+
+#user_choices {
+    position: relative;
+    display: inline-flex;
+    max-width: 40%;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #555;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    bottom: 5%;
+    right: 3%;
+    align-items: flex-start;
+}
+
+
+.user_bet {
+    position: absolute;
+    top: -40%;
+    right: 20%;
+    display: none;
+}
+
+.user_bet .amount {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    background-color: #444;
+
+    padding: 10%;
+    padding-right: 20%;
+    padding-left: 20%;
+
+    border-radius: 10px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    z-index: 1; /* Place the span on top of the image */
+}
+
+.user_bet img {
+    width: 50px;
+    height: auto;
+}
+
+
+
+#user_avatar {
+    max-width: 100%;
+    height: auto;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.choice {
+    font-size: 1.2em;
+    color: whitesmoke;
+    margin: 5px;
+    margin-top: 20px;
+    width: 85px;
+    background-color: #444;
+    border-radius: 3px; /* Add rounded corners for a polished appearance */
+    border: 2px solid #555; /* Border color and width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    transition: background-color 0.3s ease;
+}
+
+.choice:disabled {
+    background-color: #ccc;
+    color: #555;
+    cursor: not-allowed;
+}
+
+.choice:enabled {
+    background-color: #555;
+    color: #fff;
+    cursor: pointer;
+}
+
+.choice:hover:enabled {
+    background-color: #444;
+    box-shadow: 0 0 2px 2px goldenrod;
+}
+
+#user_money {
+    position: absolute;
+    right: 20%;
+    bottom: 40%;
+    color: goldenrod;
+    font-size: 2.5em;
+    transform: translate(50%, 50%);
+}
+
+
+#raise_input {
+    display: none;
+    position: absolute;
+    right: 43%;
+    bottom: 22%;
+    border: none;
+    outline: none;
+    width: 25%;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 2.5em;
+    color: whitesmoke;
+    background-color: #888; /* Gray background color */
+}
+
+
+.playing {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px 7px rgba(255, 255, 255, 0.8);
+}
+
+
+#open-source {
+    position: absolute;
+    left: 87%;
+    color: goldenrod;
+}
+
+#open-source a{
+    text-decoration: none;
+    color: lightblue;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Poopker</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/home.css">
+	<script type="text/javascript" src="/static/js/home.js"></script>
+</head>
+<body>
+	<div id="container">
+		<h1 class="title">POOPKER</h1>
+        <div id="serverListContainer">
+            <ul id="serverList">
+                <li id="game1">
+                	<span class="online dispo">-/6</span>
+                	<span class="name">Game 1</span>
+                	<button class="join" onclick="show_register(1)">Join</button>
+                </li>
+
+                <li id="game2">
+                	<span class="online dispo">-/6</span>
+                	<span class="name">Game 2</span>
+                	<button class="join" onclick="show_register(2)">Join</button>
+                </li>
+
+                <li id="game3">
+                	<span class="online dispo">-/6</span>
+                	<span class="name">Game 3</span>
+                	<button class="join" onclick="show_register(3)">Join</button>
+                </li >
+
+                <li id="game4">
+                	<span class="online dispo">-/6</span>
+                	<span class="name">Game 4</span>
+                	<button class="join" onclick="show_register(4)">Join</button>
+                </li>
+
+                <li id="game5">
+                	<span class="online dispo">-/6</span>
+                	<span class="name">Game 5</span>
+                	<button class="join" onclick="show_register(5)">Join</button>
+                </li>
+
+                <li id="game6">
+                	<span class="online dispo">-/6</span>
+                	<span class="name">Game 6</span>
+                	<button class="join" onclick="show_register(6)">Join</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="register">
+    	<button id="previous_avatar" onclick="previous_avatar()"><</button>
+    	<img  id="avatar" src="/static/img/avatars/avatar_1.png">
+    	<button id="next_avatar" onclick="next_avatar()">></button>
+
+		<form action="/api/join" method="post">
+			<input type="text" hidden class="game_choice" name="game_choice" value="1">
+			<input type="text" hidden id="avatar_choice" name="avatar" value="1">
+			<input type="text" id="username" autocomplete="off" name="username" oninput="activate_join()">
+			<br>
+			<input type="submit" id="join_button" value="Join Game" disabled>
+		</form>
+    </div>
+
+	<script defer>
+		function activate_join() {
+            var usernameInput = document.getElementById('username');
+            var joinButton = document.getElementById('join_button');
+
+            if (usernameInput.value.length >= 1) {
+                joinButton.disabled = false;
+            } else {
+                joinButton.disabled = true;
+            }
+        }
+
+		async function update_game_list() {
+			let data = await get_games();
+			let i = 1 // dégeu mais balek
+			for (const game in data) {
+				let server = document.getElementById("game"+i)
+				let players = server.getElementsByClassName("online")[0]
+				let name = server.getElementsByClassName('name')[0]
+
+				name.innerHTML = game
+				players.innerHTML = data[game] + "/6"
+				
+				if (data[game] >= 6) {
+					players.classList.remove("dispo")
+					players.classList.add("full")
+				} else {
+					players.classList.add("dispo")
+					players.classList.remove("full")
+				}
+				i++
+			}
+		}
+        
+        setInterval(update_game_list, 1500);
+    </script>
+
+</body>
