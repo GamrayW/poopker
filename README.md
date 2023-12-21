@@ -13,4 +13,4 @@ A fun little web-based poker game to play with your friend !
 
 ## Mobile Users
 
-Fuck You
+Fuck You Responsive CSS
