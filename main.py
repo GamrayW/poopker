@@ -221,8 +221,8 @@ def create_timeout_process(game_id, username):
 	# it's ugly, but I don't have time to think about doing it better
 	timeout_users[timeout_key] = True
 	print(f"Starting timeout #{timeout_key} counter")
-	time.sleep(30)
-	# if timeout_users is still True after 30s, we kick the player
+	time.sleep(60)
+	# if timeout_users is still True after 1m, we kick the player
 	# it becames False if the player does an action (=> func action)
 	if timeout_users[timeout_key]:
 		poker.kick_player(game_id, username)
