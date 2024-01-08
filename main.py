@@ -7,6 +7,10 @@ from flask import (
 		render_template
 	)
 
+import time
+import string
+import threading
+
 import db
 import poker
 import config
@@ -15,6 +19,10 @@ import config
 
 db.init()
 app = Flask(__name__)
+
+# dict keeping track of timeouts (if player doesnt play in 30s, he has to be kicked out)
+timeout_users = {}
+
 
 # ---------- NORMAL ENDPOINTS ---------- #
 @app.route("/", methods=['GET'])
@@ -49,7 +57,7 @@ def user_info():
 		return make_response("Not auth.", 403)
 
 	# <THIS SHOULD NOT BE CONSIDERED AS PART OF APPLICATION, IT'S HERE TO MAKE THE CHALL WORK>
-	if db.get_user_money(user['game_id'], user['username']) >= 1_000_000:
+	if db.get_user_money(user['game_id'], user['username']) >= 1000000:
 		user['flag'] = config.FLAG
 
 	return user
@@ -116,11 +124,13 @@ def join():
 	if db.players_in_game(game_id) >= 6:
 		return Response(f"Too many players, choose another game.", status=400)
 
-	# Handling XSS from source, no need to take care of it later
-	username = username.replace('<', '&lt;').replace('>', '&gt;')
-
 	if len(username) > 12:
 		return Response(f"{username} is too long, please chose something shorter.", status=400)
+
+	# todo: make a fucking regex instead [0-9a-zA-Z]
+	for letter in username:
+		if letter not in string.printable[:-38]:
+			return Response(f"Please do not choose an username with any special characters.")
 
 	if db.is_user_in_game(username, game_id):
 		return Response(f"{username} already exists in the game {game_id}.", status=400)
@@ -174,12 +184,19 @@ def action(game_id):
 	except poker.IllegalMove:
 		return make_response("Illegal Move", 400)
 
+
+	# Reset the timeout of the user
+	timeout_users[f"{game_id},{username}"] = False
+
 	poker.next_player(game_id, username)
 
 	users_left = db.get_all_players(game_id, folded_included=False)
 	if len(users_left) == 1:
 		poker.match_win(game_id, users_left[0]['username'])
 
+	new_player = db.get_current_player_turn(game_id)
+	threading.Thread(target=create_timeout_process, args=(game_id, new_player)).start()
+	print(timeout_users)
 	return "ok"
 
 
@@ -192,6 +209,23 @@ def leave():
 
 	poker.kick_player(user['game_id'], user['username'])
 	return "ok"
+
+
+def create_timeout_process(game_id, username):
+	"""
+	Wait 30s and kick the player if it's still it's turn to play.
+	:param username str: the player currently playing
+	:param game_id int: the corresponding game_id
+	"""
+	timeout_key = f"{game_id},{username}"
+	# it's ugly, but I don't have time to think about doing it better
+	timeout_users[timeout_key] = True
+	print(f"Starting timeout #{timeout_key} counter")
+	time.sleep(30)
+	# if timeout_users is still True after 30s, we kick the player
+	# it becames False if the player does an action (=> func action)
+	if timeout_users[timeout_key]:
+		poker.kick_player(game_id, username)
 
 
 # Running the server
