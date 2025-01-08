@@ -284,7 +284,7 @@ def get_user_from_cookie(cookie):
 	Get the user from the cookie.
 	:return: the user formatted (see format_user_data) or None if user does not exist
 	"""
-	user = execute("SELECT * FROM Users WHERE cookie LIKE ?", [cookie], fetchone=True)
+	user = execute("SELECT * FROM Users WHERE cookie = ?", [cookie], fetchone=True)
 	return format_user_data(user, hide_hand=False) if user is not None else None
 
 
